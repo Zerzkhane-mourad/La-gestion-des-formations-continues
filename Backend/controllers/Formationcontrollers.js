@@ -77,14 +77,15 @@ const RemoveFormation = (req,res) => {
 
     let formation = req.formation
 
-    formation.remove((err, formation)=>{
-        if(err) {
-            return res.status(404).send({
-                error: "Formation not found"
-            })
-        }
-
+    formation.remove(formation)
+    .then(()=>{
         res.status(204).send("Product deleted")
+
+    })
+    .catch((err)=>{
+        res.status(404).send({
+            error: "Formation not found"
+        })
 
     })
 

@@ -18,8 +18,10 @@ app.use(cors());
 
 const routeuser = require('./routes/user');
 const routeformation = require('./routes/formation')
+const routeorganisme = require('./routes/organisme')
 app.use('/api/user', routeuser)
 app.use('/api/formation', routeformation)
+app.use('/api/organisme', routeorganisme)
 
 
 mongoose.connect(process.env.DB)

@@ -1,6 +1,7 @@
 const User = require('../models/Usermodels')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { transporter } = require('../helpers/config')
 
 const CreateUser = async (req, res) => {
     const {body} = req
@@ -11,15 +12,24 @@ const CreateUser = async (req, res) => {
     return res.status(400).json({
         error: 'Email Not Found '
     })
-    } else {
+    }  else {
         const user = await User.create({
-            ...body,
-            role: 'employe',
+            ...body ,
+            role: 'client',
             password: hashPassword
         })
+        const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: 3600 });
+        const {email} = user;
+        transporter.sendMail({
+            from: process.env.EMAIL,
+            to: email,
+            subject: "Vérification votre compte Marhaba",
+            html: `<p>cliquer sur ce <a href="http://localhost:8080/verify/${token}">lien</a> pour vérifier votre a compte</p>`
+        })
         try {
-            res.send(user)
 
+        res.send('created succflly')
+       
         } catch {
             res.send('error creating')
         }
@@ -32,6 +42,11 @@ const Login = async (req, res) => {
     if (!user)
     return res.status(400).json({
         error: 'Email Not Found'
+    })
+
+    if(user.confirmed===false)
+    return res.status(400).json({
+        error : 'your email not confirme verify your emai'
     })
 
     const password = await bcrypt.compare(req.body.password, user.password)
