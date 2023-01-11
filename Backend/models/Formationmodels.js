@@ -5,10 +5,11 @@ const FormationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    image:{
-        type: Buffer,
+    photo:{
+        data: Buffer,
         contentType: String,
-        required: true
+        
+       
     },
     employe_assigned: [
         {
@@ -23,7 +24,9 @@ const FormationSchema = new mongoose.Schema({
     end_date:{
         type: Date,
         required: true
-    }
+    },
+  
+    
 })
 
 module.exports = mongoose.model('Formation', FormationSchema)

@@ -16,8 +16,10 @@ app.use(cookieParser())
 app.use(cors());
 
 
-const router = require('./routes/user');
-app.use('/', router)
+const routeuser = require('./routes/user');
+const routeformation = require('./routes/formation')
+app.use('/api/user', routeuser)
+app.use('/api/formation', routeformation)
 
 
 mongoose.connect(process.env.DB)
