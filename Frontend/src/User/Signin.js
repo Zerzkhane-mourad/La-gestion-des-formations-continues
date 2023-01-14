@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate , Navigate } from 'react-router-dom';
 import { useDispatch , useSelector } from 'react-redux';
 import { login } from '../actions/auth'
 
@@ -10,6 +10,7 @@ const Signin = (props) => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const { isLogin } = useSelector(state => state.auth);
 
     const [user, setUser] = useState({
         email: '',
@@ -26,8 +27,18 @@ const Signin = (props) => {
     const submiSignin = e => {
 
         e.preventDefault();
-        dispatch(login(user))
+        dispatch(login(user)).then(()=>{
+            navigate("/dashboard");
+            window.location.reload();
+        })
+
     }
+    if (isLogin) {
+        return <Navigate to="/dashboard" />;
+      }
+
+
+      console.log(isLogin)
 
     return (
 

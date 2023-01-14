@@ -8,7 +8,7 @@ const route = express.Router();
 route.post('/createorganisme', organisme.CreateOrganisme)
 route.delete('/:organismeId', organisme.RemoveOrganisme)
 route.put('/:organismeId', organisme.UpdateOrganisme)
-
+route.get('/organismes', organisme.GetallOrganisme)
 
 
 route.param('organismeId', organisme.OrganismeById)

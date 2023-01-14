@@ -1,5 +1,4 @@
 import React from 'react'
-import Navbar from '../core/Navbar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from '../core/Home';
 import Signin from './Signin';
@@ -13,7 +12,9 @@ import AdminDashboard from './AdminDashboard';
 import PrivateAdminRoute from '../helpers/PrivateAdminRoute';
 import LivreurDashboard from './LivreurDashboard';
 import PrivateLivreurRoute from '../helpers/PrivateLivreurRoute';
-import NotAcces from './NotAcces'
+import NotAcces from './NotAcces';
+import Formation from '../Admin/formation/Formation';
+import Employe from '../Admin/Employe/Employe';
 
 
 
@@ -23,30 +24,33 @@ const Routs = () => {
 
     <Router>
 
-      <Navbar />
-
       <Routes>
 
         <Route element={<PrivateRoute />}>
           <Route path='/' element={<Home />} />
-          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/dashboardssssssss' element={<Dashboard />} />
 
 
           <Route element={<PrivateAdminRoute />}>
-            <Route path='/admin/dashboard' element={<AdminDashboard />} />
+            <Route element={<AdminDashboard />}>
+              <Route path='/formation' element={<Formation />} />
+              <Route path='/employe' element={<Employe />} />
+            </Route>
+
+          </Route>  
+
+
+            <Route element={<PrivateLivreurRoute />}>
+              <Route path='/livreur/dashboard' element={<LivreurDashboard />} />
+            </Route>
           </Route>
 
-          <Route element={<PrivateLivreurRoute />}>
-            <Route path='/livreur/dashboard' element={<LivreurDashboard />} />
-          </Route>
-        </Route>
-
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/signin' element={<Signin />} />
-        <Route path='/forgetpassword' element={<ForgetPass />} />
-        <Route path='/resetpassword/:token' element={<ResetPassword />} />
-        <Route path='/notacces' element={< NotAcces />} />
-        <Route path='*' element={<NotFound />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/signin' element={<Signin />} />
+          <Route path='/forgetpassword' element={<ForgetPass />} />
+          <Route path='/resetpassword/:token' element={<ResetPassword />} />
+          <Route path='/notacces' element={< NotAcces />} />
+          <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
 

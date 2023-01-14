@@ -33,6 +33,16 @@ const OrganismeById = (req, res, next, id) => {
 
 }
 
+const ShowOrganisme = (req,res) => {
+
+    let organisme = req.organisme;
+
+    res.send({
+        organisme
+    })
+
+}
+
 const RemoveOrganisme = (req,res) => {
 
     let organisme = req.organisme
@@ -54,6 +64,8 @@ const RemoveOrganisme = (req,res) => {
 const UpdateOrganisme = (req,res) => {
 
     const {body} = req
+
+
     Organisme.updateOne({...body})
     .then(()=>{
         res.status(200).send('Updatet succes')
@@ -64,6 +76,18 @@ const UpdateOrganisme = (req,res) => {
 
 }
 
+const GetallOrganisme = (req, res) =>{
+    Organisme.find()
+    .then((data)=>{
+        res.send(data)
+    })
+    .catch((err)=>{
+        res.status(500).send({
+            err: "No Organisme is registered"
+        })
+    })
+
+}
 
 
-module.exports = { CreateOrganisme , OrganismeById , RemoveOrganisme , UpdateOrganisme }
+module.exports = { CreateOrganisme , OrganismeById , ShowOrganisme , RemoveOrganisme , UpdateOrganisme , GetallOrganisme }

@@ -1,10 +1,8 @@
 import React, { Fragment } from 'react'
 import {NavLink, useNavigate } from 'react-router-dom'
-import axios from 'axios';
-import toastr from 'toastr';
-import "toastr/build/toastr.css"
-import { API_URL } from './../config'
 import { isAunthenticated } from './../helpers/Auth'
+import { useDispatch } from 'react-redux';
+import { logout } from '../actions/auth';
 
 
 
@@ -15,19 +13,13 @@ let activeStyle = {
 const Navbar = (props) => {
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const signout = () => {
-
-        axios.get(`${API_URL}/signout`)
-            .then(() => {
-                toastr.success('Logout succefully !', {
-                    positionClass: "toastr-bottom"
-                })
-
-                localStorage.removeItem('jwt_info')
-                navigate('/signin')
-            })
-            .catch()
+        dispatch(logout()).then(()=>{
+            navigate("/signin");
+            window.location.reload();
+        })
 
 
     }

@@ -1,19 +1,18 @@
 import { API_URL } from "../config";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
 import toastr from 'toastr';
 import "toastr/build/toastr.css"
 
 const Login = (user) => {
 
-    axios.post(`${API_URL}/signin`, user)
+    axios.post(`${API_URL}/user/signin`, user)
 
     .then((res) => {
 
         toastr.success('Login succefully !')
 
         localStorage.setItem('jwt_info', JSON.stringify(res.data))
-        return res.data;
+       
 
     })
     .catch(error => {
@@ -25,7 +24,7 @@ const Login = (user) => {
 
 const Signup = (user) =>{
     
-    axios.post(`${API_URL}/signup` , user , {
+    axios.post(`${API_URL}/user/createuser` , user , {
     })
 
     .then(()=> {
@@ -44,13 +43,12 @@ const Signup = (user) =>{
 
 const Signout = () => {
 
-    axios.get(`${API_URL}/signout`)
+    axios.get(`${API_URL}/user/signout`)
         .then(() => {
             toastr.success('Logout succefully !')
 
             localStorage.removeItem('jwt_info')
         })
-        .catch()
 }
 
 export default { Login , Signup, Signout }

@@ -7,7 +7,6 @@ const CreateFormation = (req, res) => {
 
     let form = new formidable.IncomingForm();
 
-    form.keepExtensions = true;
 
     form.parse(req, (err, fields, files) => {
 
@@ -32,11 +31,11 @@ const CreateFormation = (req, res) => {
 
         formation.save((err, formation) => {
             if (err) {
-                return res.status(400).json({
-                    err: "formation not added"
-                })
+                return res.status(400).send(
+                    err
+                )
             }
-            res.json({
+            res.send({
                 formation
             })
 
@@ -84,7 +83,7 @@ const RemoveFormation = (req,res) => {
     })
     .catch((err)=>{
         res.status(404).send({
-            error: "Formation not found"
+            err
         })
 
     })

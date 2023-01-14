@@ -12,13 +12,23 @@ const UserShema = new mongoose.Schema({
     },
     role: { 
         type: String, 
-        required: true 
+        required: true ,
+        default: 'employe'
     },
     password: { 
         type: String, 
         required: true 
     },    
-    
+    confirmed: {
+        type: Boolean,
+        default: false
+    },
+    organisme: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Organisme"
+        }
+      ],
 })
 
 module.exports = mongoose.model('User', UserShema);
