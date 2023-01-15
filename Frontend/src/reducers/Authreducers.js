@@ -1,4 +1,4 @@
-import { REGISTER_SUCCESS, REGISTER_FAIL, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../actions/type";
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../actions/type";
 
 const user = JSON.parse(localStorage.getItem('jwt_info'))
 
@@ -8,18 +8,6 @@ const authReducer  = (state = myState, action) => {
 
     switch(action.type){
 
-        case REGISTER_SUCCESS: {
-            return {
-                ...state,
-                isLogin: false
-            }
-        }
-        case REGISTER_FAIL: {
-            return {
-                ...state,
-                isLogin: false
-            }
-        }
         case LOGIN_SUCCESS: {
             return {
                 ...state,

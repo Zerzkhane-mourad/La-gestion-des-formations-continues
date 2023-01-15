@@ -46,7 +46,6 @@ const ShowOrganisme = (req,res) => {
 const RemoveOrganisme = (req,res) => {
 
     let organisme = req.organisme
-
     organisme.remove(organisme)
     .then(()=>{
         res.status(204).send("Organisme deleted")
@@ -62,11 +61,9 @@ const RemoveOrganisme = (req,res) => {
 }
 
 const UpdateOrganisme = (req,res) => {
-
+    const organisme = req.organisme
     const {body} = req
-
-
-    Organisme.updateOne({...body})
+    Organisme.findByIdAndUpdate({_id: organisme._id}, {...body})
     .then(()=>{
         res.status(200).send('Updatet succes')
     })

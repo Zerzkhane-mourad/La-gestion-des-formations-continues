@@ -6,7 +6,7 @@ const PrivateLivreurRoute = () => {
     
     return(
 
-        isAunthenticated() && isAunthenticated().user.role === 'livreur'? <Outlet/> : <Navigate to= "/notacces" />
+        isAunthenticated() && isAunthenticated().user.role === 'employe'? <Outlet/> : <Navigate to= "/notacces" />
     
     )
 

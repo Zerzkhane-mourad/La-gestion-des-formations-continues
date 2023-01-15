@@ -4,6 +4,8 @@ const app = express();
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const expressValidator = require('express-validator');
+const path = require('path')
+
 require('dotenv').config();
 
 const port = process.env.PORT ;
@@ -13,6 +15,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended : true}))
 app.use(expressValidator())
 app.use(cookieParser())
+app.use(express.static(path.join(__dirname, 'public/images')))
 app.use(cors());
 
 

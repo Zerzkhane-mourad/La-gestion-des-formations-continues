@@ -1,46 +1,36 @@
 const Formation = require('../models/Formationmodels')
-const formidable = require('formidable')
-const fs = require('fs')
-const lodash = require('lodash')
-
-const CreateFormation = (req, res) => {
-
-    let form = new formidable.IncomingForm();
+const User = require('../models/Usermodels')
+const jwt = require('jsonwebtoken')
 
 
-    form.parse(req, (err, fields, files) => {
+const CreateFormation = async(req, res) => {
 
-        if (err) {
-            return res.status(400).json({
-                error: "Image not uploaded"
-            })
-        }
+  const { body } = req    
+  const images = req.file.filename
 
-        let formation = new Formation(fields);
+  const formation = {
+    ...body,
+    images: images
+  }
 
-        if (files.photo) {
+  const isformfield = Object.values(formation).every(value => {
+    if (value) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  })
 
-            if (files.photo.size > Math.pow(10, 6)) {
-                return res.status(400).send({
-                    error: 'image should less than 1 mb'
-                })
-            }
-            formation.photo.data = fs.readFileSync(files.photo.path)
-            formation.photo.contentType = files.photo.type
-        }
-
-        formation.save((err, formation) => {
-            if (err) {
-                return res.status(400).send(
-                    err
-                )
-            }
-            res.send({
-                formation
-            })
-
-        })
-    })
+  if (isformfield) {
+    await Formation.create(formation)
+      .then(() => {
+        res.send('Formation is Added')
+      })
+      .catch((err) => {
+        res.status(500).send(err)
+      })
+  }
 
 }
 
@@ -53,7 +43,6 @@ const FormationByid = (req, res, next, id) => {
             })
 
         }
-
         req.formation = formation
         next()
 
@@ -75,7 +64,7 @@ const ShowFormation = (req,res) => {
 const RemoveFormation = (req,res) => {
 
     let formation = req.formation
-
+    
     formation.remove(formation)
     .then(()=>{
         res.status(204).send("Product deleted")
@@ -91,46 +80,61 @@ const RemoveFormation = (req,res) => {
 }
 
 const UpdateFormation = (req, res) => {
+  const formation = req.formation
+  const {body} = req
+  const images = req.file.filename
 
-    let form = new formidable.IncomingForm();
+  const editformation = {
+    ...body,
+    images: images
+  }
 
-    form.keepExtensions = true;
+  if (editformation) {
+    Formation.findByIdAndUpdate({ _id: formation._id }, editformation)
+      .then(() => {
+        res.send('Formation is Updated')
+      })
+      .catch(err => {
+        res.send(err)
+      })
+  }
 
-    form.parse(req, (err, fields, files) => {
+}
 
-        if (err) {
-            return res.status(400).json({
-                error: "Image not uploaded"
-            })
-        }
-
-        let formation = req.formation
-        formation = lodash.extend(formation, fields)
-
-        if (files.photo) {
-
-            if (files.photo.size > Math.pow(10, 6)) {
-                return res.status(400).send({
-                    error: 'image should less than 1 mb'
-                })
-            }
-            formation.photo.data = fs.readFileSync(files.photo.path)
-            formation.photo.contentType = files.photo.type
-        }
-
-        formation.save((err, formation) => {
-            if (err) {
-                return res.status(400).json({
-                    err: "formation not Update"
-                })
-            }
-            res.json({
-                formation
-            })
-
+const GetallFormation = (req, res) =>{
+    Formation.find()
+    .populate({path:'employe_assigned', model: User})
+    .then((data)=>{
+        res.send(data)
+    })
+    .catch((error)=>{
+        res.status(500).send({
+            error
         })
     })
 
 }
 
-module.exports = { CreateFormation , FormationByid ,  ShowFormation  , RemoveFormation , UpdateFormation}
+const FormationAsigned = async(req, res) =>{
+ 
+  const token = req.cookies.token
+  const token_user = await jwt.verify(token, process.env.TOKEN_SECRET)
+  await Formation.find({employe_assigned: token_user._id}) 
+    .then((data)=>{
+      res.send(data)
+  })
+  .catch((error)=>{
+      res.status(500).send({
+          error
+      })
+  })
+
+
+
+}
+
+
+
+
+
+module.exports = { CreateFormation , FormationByid ,  ShowFormation  , RemoveFormation , UpdateFormation , GetallFormation , FormationAsigned}

@@ -5,11 +5,8 @@ const FormationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    photo:{
-        data: Buffer,
-        contentType: String,
-        
-       
+    images:{
+        type: String       
     },
     employe_assigned: [
         {
@@ -18,11 +15,11 @@ const FormationSchema = new mongoose.Schema({
         }
       ],
     start_date:{
-        type: Date,
+        type: String,
         required: true
     },
     end_date:{
-        type: Date,
+        type: String,
         required: true
     },
   

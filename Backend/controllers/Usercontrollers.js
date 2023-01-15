@@ -37,6 +37,15 @@ const CreateUser = async (req, res) => {
     }
 }
 
+const verify = (req, res) => {
+    
+    const user = jwt.verify(req.params.token, process.env.TOKEN_SECRET)
+    User.findByIdAndUpdate(user._id, {confirmed: true })
+        .then(() => { res.redirect('http://localhost:3000/signin')})
+        .catch(() => { res.send('not update') })
+
+}
+
 const Login = async (req, res) => {
 
     const user = await User.findOne({ email: req.body.email })
@@ -67,7 +76,6 @@ const Login = async (req, res) => {
 const Signout = (req, res) => {
 
     res.clearCookie('token');
-
     res.send('User signed out')
 
 }
@@ -81,7 +89,6 @@ const UserById = (req, res, next, id) => {
             })
 
         }
-
         req.user = user
         next()
 
@@ -92,7 +99,6 @@ const UserById = (req, res, next, id) => {
 const ShowUser = (req, res) => {
 
     let user = req.user;
-
     res.send({
         user
     })
@@ -133,7 +139,6 @@ const UpdateUser = (req, res) => {
 const GetallUsers = (req, res) => {
     User.find({ role: 'employe' })
         .populate({ path: 'organisme', model: Organisme })
-
         .then((data) => {
             res.send(data)
         })
@@ -145,4 +150,4 @@ const GetallUsers = (req, res) => {
 
 }
 
-module.exports = { CreateUser, Login, Signout, GetallUsers, UserById , ShowUser , UpdateUser , RemoveUser }
+module.exports = { CreateUser, Login, Signout, GetallUsers, UserById , ShowUser , UpdateUser , RemoveUser , verify}

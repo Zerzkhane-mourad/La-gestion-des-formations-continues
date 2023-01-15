@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { API_URL } from '../../config'
+import { API_URL } from '../config'
 import axios from 'axios'
-import toastr from 'toastr';
-import "toastr/build/toastr.css"
+import { ToastContainer, toast } from "react-toastify";
 
 
 
@@ -17,7 +16,6 @@ function Employe() {
     const [data, setData] = useState([])
     const fetchEmploye = () => {
         axios.get(`${API_URL}/user/users`)
-
             .then((response) => {
                 console.log(response.data)
                 setData(response.data)
@@ -37,18 +35,16 @@ function Employe() {
 
 
     const addEmploye = e => {
-
         e.preventDefault();
-
         axios.post(`${API_URL}/user/createuser`, employe)
             .then(() => {      
-                toastr.success('Creteded succefully !')
+                toast.success('Creteded succefully !')
                 fetchEmploye()
                 closeModal()
             })
             .catch(error => {
                 if (error.response) {
-                    toastr.warning(error.response.data.error, 'Please chek Form !')
+                    toast.warning(error.response.data.error, 'Please chek Form !')
                 }
             })
 
@@ -59,6 +55,7 @@ function Employe() {
         axios.get(`${API_URL}/organisme/organismes`)
         .then((response)=>{
             setOrganisme(response.data)
+            
         })
       }
     
@@ -68,33 +65,37 @@ function Employe() {
 
 
     const [showDataUser, setShowDataUser] = useState([])
-
-    
     const onChangeEdite = (e) => {
         setShowDataUser({...showDataUser, [e.target.name]: e.target.value})
     }
 
 
-    const editeDataUser = () => {
+    const editeDataUser = (e) => {
+    e.preventDefault()
      axios.put(`${API_URL}/user/${showDataUser._id}`, showDataUser)
         .then(response => {
+            toast.success('Updated succefully !')
             console.log(response)
             fetchEmploye()
         })
-        .catch(err => {
-            console.log(err)
+        .catch(error => {
+            if (error.response) {
+                toast.warning(error.response.data.error, 'Please chek Form !')
+            }
         })
     }
 
     const deleteUser = (id) => {
         
         axios.delete(`${API_URL}/user/${id}`)
-        .then((response) => {
-            
+        .then(() => {
+            toast.success('Deleted succefully !')
             fetchEmploye()
         })
-        .catch(err => {
-            console.log(err)
+        .catch(error => {
+            if (error.response) {
+                toast.warning(error.response.data.error, 'Please chek Form !')
+            }
         })
     }
 
@@ -107,7 +108,7 @@ function Employe() {
                 </div>
                 <div className="d-flex flex-row ">
                     <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Creér nouveau formation
+                        Creér nouveau Employe
                     </button>
                 </div>
             </div>
@@ -129,7 +130,7 @@ function Employe() {
                             <tr key={index} className="align-middle">
                                 <td>{user.username}</td>
                                 <td>{user.email}</td>
-                                <td>{user.organisme.address}</td>
+                                <td>{user.organisme[0].name}</td>
                                 <td>{user._id}</td>
                                 <td className="d-flex flex-row ">
                                         <button data-bs-toggle="modal" data-bs-target="#exampleModal2" onClick={() => setShowDataUser(user)} className="btn btn-sm btn-warning me-3"><i className="fa fa-edit"></i></button>
@@ -149,7 +150,7 @@ function Employe() {
                             <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div className="modal-body">
-                            <form onSubmit={addEmploye} className="needs-validation">
+                            <form  className="needs-validation">
                                 <div className="mb-2">
                                     <div className="w-100">
                                         <label className="fonts"><b>Username</b></label>
@@ -185,7 +186,7 @@ function Employe() {
 
                                 <div className="d-flex align-items-center fonts pb-3 mt-4">
 
-                                    <button type="submit" value="Submit" data-bs-dismiss={closeModal}  className=" w-100 bg-black text-light b  py-2 px-4 rounded-0   ms-auto fonts  border-0 "  >
+                                    <button type="submit" onClick={addEmploye} value="Submit" data-bs-dismiss={closeModal}  className=" w-100 bg-black text-light b  py-2 px-4 rounded-0   ms-auto fonts  border-0 "  >
                                         <b>CREER FORMATION</b>
                                     </button>
                                 </div>
@@ -239,13 +240,12 @@ function Employe() {
                                         <b>Modifier Employe</b>
                                     </button>
                                 </div>
-                                {JSON.stringify(employe)}
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-
+        <ToastContainer/>
         </div>
 
     )
