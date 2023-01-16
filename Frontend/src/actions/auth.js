@@ -1,7 +1,7 @@
 import {LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "./type";
 import { API_URL } from "../config";
 import axios from 'axios';
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export const login = (user) => (dispatch) => {
   
@@ -48,4 +48,3 @@ export const logout = () => dispatch => {
 
 };
 
-<ToastContainer/>

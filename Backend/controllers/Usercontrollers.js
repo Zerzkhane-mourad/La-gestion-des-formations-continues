@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const { transporter } = require('../helpers/config')
 const Organisme = require('../models/Organismemodels')
 
+
 const CreateUser = async (req, res) => {
     const { body } = req
     const hashPassword = await bcrypt.hash(req.body.password, 10);
@@ -32,7 +33,7 @@ const CreateUser = async (req, res) => {
             res.send('created succflly')
 
         } catch {
-            res.send('error creating')
+            res.status(400).send('error creating')
         }
     }
 }
@@ -50,18 +51,18 @@ const Login = async (req, res) => {
 
     const user = await User.findOne({ email: req.body.email })
     if (!user)
-        return res.status(400).json({
+        return res.status(400).send({
             error: 'Email Not Found'
         })
 
     if (user.confirmed === false)
-        return res.status(400).json({
+        return res.status(400).send({
             error: 'your email not confirme verify your emai'
         })
 
     const password = await bcrypt.compare(req.body.password, user.password)
     if (!password)
-        return res.status(400).json({
+        return res.status(400).send({
             error: 'Password Not Found'
         })
 
@@ -72,6 +73,7 @@ const Login = async (req, res) => {
 
 
 }
+
 
 const Signout = (req, res) => {
 

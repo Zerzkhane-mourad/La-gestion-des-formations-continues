@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
-import {NavLink, useNavigate } from 'react-router-dom'
+import {NavLink , Navigate } from 'react-router-dom'
 import { isAunthenticated } from './../helpers/Auth'
-import { useDispatch } from 'react-redux';
+import { useDispatch , useSelector } from 'react-redux';
 import { logout } from '../actions/auth';
 
 
@@ -10,20 +10,18 @@ let activeStyle = {
     color: '#1E8449'
 };
 
-const Navbar = (props) => {
+const Navbar = () => {
 
-    const navigate = useNavigate()
+    const { isLogin } = useSelector(state => state.auth);
     const dispatch = useDispatch()
 
     const signout = () => {
-        dispatch(logout()).then(()=>{
-            navigate("/signin");
-            window.location.reload();
-        })
-
-
+        dispatch(logout())
     }
 
+    if (!isLogin) {
+        return <Navigate to="/signin" />;
+    }
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -35,15 +33,8 @@ const Navbar = (props) => {
                 <div className="collapse navbar-collapse " id="navbarNav">
                     <ul className="navbar-nav ms-auto">
 
-                        <li className="nav-item">
-                            <NavLink style={({ isActive }) => isActive ? activeStyle : undefined } className="nav-link" to={`${isAunthenticated() && isAunthenticated().user.role === 'admin' ? '/admin' : isAunthenticated() && isAunthenticated().user.role === 'livreur' ? '/livreur' : ''}/dashboard`}>Dashboard</NavLink>
-                        </li>
-
                         {!isAunthenticated() && (
                             <Fragment>
-                                <li className="nav-item">
-                                    <NavLink style={({ isActive }) => isActive ? activeStyle : undefined }  className="nav-link" to='/signup'>Register</NavLink>
-                                </li>
                                 <li className="nav-item">
                                     <NavLink style={({ isActive }) => isActive ? activeStyle : undefined }  className="nav-link" to="/signin">Connexion</NavLink>
                                 </li>

@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Link, useNavigate , Navigate } from 'react-router-dom';
 import { useDispatch , useSelector } from 'react-redux';
 import { login } from '../actions/auth'
+import { ToastContainer} from "react-toastify";
+import { isAunthenticated } from './../helpers/Auth'
 
 
 
-
-const Signin = (props) => {
+const Signin = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -33,10 +34,12 @@ const Signin = (props) => {
         })
 
     }
-    if (isLogin) {
-        return <Navigate to="/dashboard" />;
+    if (isLogin && isAunthenticated().user.role==="admin") {
+        return <Navigate to="/admin/statistique" />;
       }
-
+      if (isLogin && isAunthenticated().user.role==="employe") {
+        return <Navigate to="/employe" />;
+      }
 
       console.log(isLogin)
 
@@ -82,6 +85,7 @@ const Signin = (props) => {
                     </div>
                 </div>
             </div>
+            <ToastContainer/>
         </div>
     )
 }
