@@ -95,7 +95,7 @@ const UpdateFormation = (req, res) => {
         res.send('Formation is Updated')
       })
       .catch(err => {
-        res.send(err)
+        res.status(500).send(err)
       })
   }
 

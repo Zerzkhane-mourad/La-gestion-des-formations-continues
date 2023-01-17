@@ -206,9 +206,7 @@ function Formation() {
                                         <b>CREER FORMATION</b>
                                     </button>
                                 </div>
-
-
-                                {JSON.stringify(formation)}
+                                {/* {JSON.stringify(formation)} */}
                             </form>
                         </div>
                     </div>

@@ -190,7 +190,7 @@ function Employe() {
                                         <b>CREER FORMATION</b>
                                     </button>
                                 </div>
-                                {JSON.stringify(employe)}
+                                {/* {JSON.stringify(employe)} */}
                             </form>
                         </div>
                     </div>

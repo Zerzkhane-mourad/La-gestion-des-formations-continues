@@ -26,7 +26,7 @@ const CreateUser = async (req, res) => {
             from: process.env.EMAIL,
             to: email,
             subject: "Vérification votre compte Marhaba",
-            html: `<p>cliquer sur ce <a href="http://localhost:8080/verify/${token}">lien</a> pour vérifier votre a compte</p>`
+            html: `<p>cliquer sur ce <a href="http://localhost:4000/api/user/verify/${token}">lien</a> pour vérifier votre a compte</p>`
         })
         try {
 

@@ -16,6 +16,7 @@ route.put('/:userId', user.UpdateUser)
 route.get('/users',user.GetallUsers);
 route.get('/statistique', Statistique)
 route.get('/auth', auth.requireSignIn, auth.chekrole);
+route.get('/verify/:token',user.verify);
 
 
 route.param('userId', user.UserById)

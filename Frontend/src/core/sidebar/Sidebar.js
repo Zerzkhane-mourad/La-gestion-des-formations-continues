@@ -1,6 +1,5 @@
 import React from 'react'
 import { NavLink ,Navigate } from 'react-router-dom'
-import { isAunthenticated } from '../../helpers/Auth'
 import { useDispatch , useSelector } from 'react-redux';
 import { logout } from '../../actions/auth';
 import './css/style.css'

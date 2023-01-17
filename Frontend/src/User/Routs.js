@@ -1,9 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Signin from './Signin';
-import ResetPassword from './ResetPassword';
 import NotFound from './NotFound';
-import Dashboard from './Dashboard';
 import PrivateRoute from '../helpers/PrivateRoute';
 import AdminDashboard from './AdminDashboard';
 import PrivateAdminRoute from '../helpers/PrivateAdminRoute';

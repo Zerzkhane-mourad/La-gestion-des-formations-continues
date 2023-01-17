@@ -45,10 +45,9 @@ const Signin = () => {
 
     return (
 
-        <div className="container h-100 mt-5">
-            <div className="row justify-content-sm-center h-100">
+        <div className="container  mt-5 pt-5">
+            <div className="row justify-content-sm-center h-100 mt-3">
                 <div className="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
-
                     <div className="card shadow-lg border-0">
                         <div className="text-center my-2 mt-3  fonts">
                             <h3>Login</h3>
