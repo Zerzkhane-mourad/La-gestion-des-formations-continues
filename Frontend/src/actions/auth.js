@@ -12,7 +12,6 @@ export const login = (user) => (dispatch) => {
       toast.success('Login succefully !')
       localStorage.setItem('jwt_info', JSON.stringify(res.data))
    
-
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data.user,

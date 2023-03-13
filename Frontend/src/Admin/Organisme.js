@@ -75,13 +75,11 @@ function Organisme() {
             .catch(error => {
                 if (error.response) {
                     toast.warning(error.response.data.error, 'Please chek Form !')
-                }          
+                }
             })
     }
 
-
-
-
+    
     return (
 
         <div className="container-fuildcol">
@@ -163,12 +161,10 @@ function Organisme() {
                                 </div>
 
                                 <div className="d-flex align-items-center fonts pb-3 mt-4">
-
                                     <button type="submit" value="Submit" data-bs-dismiss={closeModal} onClick={addOrganisme} className=" w-100 bg-black text-light b  py-2 px-4 rounded-0   ms-auto fonts  border-0 "  >
                                         <b>CREER Organisme</b>
                                     </button>
                                 </div>
-                                {/* {JSON.stringify(organisme)} */}
                             </form>
                         </div>
                     </div>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useNavigate , Navigate } from 'react-router-dom';
-import { useDispatch , useSelector } from 'react-redux';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../actions/auth'
-import { ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { isAunthenticated } from './../helpers/Auth'
 
 
@@ -28,20 +28,14 @@ const Signin = () => {
     const submiSignin = e => {
 
         e.preventDefault();
-        dispatch(login(user)).then(()=>{
-            navigate("/dashboard");
-            window.location.reload();
-        })
+        dispatch(login(user))
 
     }
-    if (isLogin && isAunthenticated().user.role==="admin") {
-        return <Navigate to="/admin/statistique" />;
-      }
-      if (isLogin && isAunthenticated().user.role==="employe") {
-        return <Navigate to="/employe" />;
-      }
+    if (isLogin) {
+        return <Navigate to="/admin/statistique" />
+    }
 
-      console.log(isLogin)
+
 
     return (
 
@@ -84,7 +78,7 @@ const Signin = () => {
                     </div>
                 </div>
             </div>
-            <ToastContainer/>
+            <ToastContainer />
         </div>
     )
 }
